@@ -11,18 +11,24 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
 const AboutDialog = Me.imports.about;
+const Utils = Me.imports.utils;
 
 // For compatibility checks, as described above
 const SHELL_MINOR = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
 
 const URL = 'https://jci.sgonzalez.dev/excuses';
 
+let _settings;
 let _httpSession;
 
 var ExcusesGenerator = class ExcusesGenerator extends PanelMenu.Button {
 
     _init() {
         super._init(St.Side.TOP, `${Me.metadata.name} Indicator`, false);
+
+        _settings = Utils.getSettings();
+        _settings.set_boolean('easteregg', false);
+        _settings.connect('changed::easteregg', Lang.bind(this, this._getExcuse));
 
         const iconPath = `${Me.path}/images/jci.svg`;
         const icon = new St.Icon({
@@ -104,7 +110,12 @@ var ExcusesGenerator = class ExcusesGenerator extends PanelMenu.Button {
     }
 
     _getExcuse() {
-        const message = Soup.form_request_new_from_hash('GET', URL, {});
+        const params = {};
+        
+        if (_settings.get_boolean('easteregg')) {
+            params.v = 'easter';
+        }
+        const message = Soup.form_request_new_from_hash('GET', URL, params);
 
         _httpSession = new Soup.Session();
 
