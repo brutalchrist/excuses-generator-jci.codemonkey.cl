@@ -57,16 +57,17 @@ const AboutDialog = new Lang.Class({
         this.close(global.get_current_time());
     },
 
-    _handleKeyPress: (_widget, event) => {
+    _handleKeyPress: function(_widget, event) {
         KEYS = KEYS + event.get_key_code();
 
         if (KEYS.includes('1111111161161131141131145638')) {
             const settings = Utils.getSettings();
             const player = global.display.get_sound_player();
+            const easteregg = settings.get_boolean('easteregg');
 
-            KEYS = '';
-            settings.set_boolean('easteregg', true);
+            settings.set_boolean('easteregg', !easteregg,);
             player.play_from_theme('audio-test-signal', 'arbitrary description', null);
+            this._onClose();
         }
     }
 });
