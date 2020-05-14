@@ -2,7 +2,8 @@
   "name": "Excuses Generator",
   "description": "A excuses generator",
   "uuid": "excuses-generator@jci.codemonkey.cl",
-  "version": "0.1.0",
+  "settings-schema": "org.gnome.shell.extensions.excuses-generator",
+  "version": "0.2.0",
   "shell-version": [
     "3.36"
   ]
