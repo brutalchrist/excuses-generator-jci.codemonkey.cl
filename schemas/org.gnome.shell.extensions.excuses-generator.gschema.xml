@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema id="org.gnome.shell.extensions.excuses-generator" path="/org/gnome/shell/extensions/excuses-generator/">
+        <key name="easteregg" type="b">
+            <default>false</default>
+            <summary>Enable Easteregg</summary>
+            <description>Enable Easteregg.</description>
+        </key>
+    </schema>
+</schemalist>

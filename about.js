@@ -3,6 +3,9 @@ const ModalDialog = imports.ui.modalDialog;
 const Lang = imports.lang;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
+const Utils = Me.imports.utils;
+
+var KEYS = '';
 
 const AboutDialog = new Lang.Class({
     Name: 'AboutDialog',
@@ -45,11 +48,28 @@ const AboutDialog = new Lang.Class({
             x_align: Clutter.ActorAlign.CENTER,
             style_class: "AboutDescription"
         }));
+
+        this.connect('key-press-event', Lang.bind(this, this._handleKeyPress));
     },
 
     _onClose: function() {
+        KEYS = '';
         this.close(global.get_current_time());
     },
+
+    _handleKeyPress: function(_widget, event) {
+        KEYS = KEYS + event.get_key_code();
+
+        if (KEYS.includes('1111111161161131141131145638')) {
+            const settings = Utils.getSettings();
+            const player = global.display.get_sound_player();
+            const easteregg = settings.get_boolean('easteregg');
+
+            settings.set_boolean('easteregg', !easteregg,);
+            player.play_from_theme('audio-test-signal', 'arbitrary description', null);
+            this._onClose();
+        }
+    }
 });
 
 function show() {
